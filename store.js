@@ -50,6 +50,27 @@ export const State = {};
  */
 
 /**
+ * @type {Array<Subscribe>}
+ */
+const Subscribers = []
+
+/**
+ * @type {Array<State>}
+ */
+const states = []
+
+/**
+ * 
+ * @return {State}
+ */
+
+export const getState = () => {
+    return states[0]
+}
+
+
+
+/**
  * @typedef {object} Store
  * @prop {GetState} getState
  * @prop {Subscribe} Subscribe
