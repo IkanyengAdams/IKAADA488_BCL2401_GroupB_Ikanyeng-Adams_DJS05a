@@ -24,6 +24,12 @@ import { Task, Sorting } from "./store.js"
  */
 
 /**
+ * @typedef {AddTask | ChangeSort | ToggleAdd} Action
+ */
+
+export const Action = {};
+
+/**
  * @return {string}
  */
 
