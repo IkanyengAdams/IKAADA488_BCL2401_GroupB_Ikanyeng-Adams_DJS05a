@@ -1,3 +1,6 @@
+import { Action } from "./actions.js"
+import { reducer } from "./reducers.js"
+
 /**
  * @typedef {object} Task
  * @prop {string} id
@@ -43,21 +46,21 @@ export const State = {};
  */
 
 /**
- * @callback Subscribe
+ * @callback Subscription
  * @param {State} prev
  * @param {State} next
  * @return {EmptyFn}
  */
 
 /**
- * @type {Array<Subscribe>}
+ * @type {Array<Subscription>}
  */
-const Subscribers = []
+let subscribers = []
 
 /**
  * @type {Array<State>}
  */
-const states = []
+const states = [];
 
 /**
  * 
@@ -65,14 +68,35 @@ const states = []
  */
 
 export const getState = () => {
-    return states[0]
-}
-
-
+    return Object.freeze({  ...states[0] });
+};
 
 /**
- * @typedef {object} Store
- * @prop {GetState} getState
- * @prop {Subscribe} Subscribe
- * @prop {Dispatch} dispatch
+ * @param {Action} action
  */
+export const dispatch = (action) => {
+ const prev = getState();
+ const next = reducer(prev, action);
+ subscribers.forEach((item) => item(prev, next));
+ states.unshift(next);
+};
+
+/**
+ * @param {Subscription} subscription
+ */
+export const subscribe = (subscription) => {
+  subscribers.push(subscription);
+  const handler = (item) => item !== subscription;
+
+
+  const unsubscribe = () => {
+     const newSubscribers = subscribers.filter(handler);
+     subscribers = newSubscribers
+  };
+
+  return unsubscribe;
+
+};
+
+
+

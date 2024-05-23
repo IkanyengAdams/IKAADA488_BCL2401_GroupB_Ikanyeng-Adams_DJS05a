@@ -74,8 +74,8 @@ export const toggleTask = () => ({ type: "TOGGLE_ADD" });
  * @param {Sorting} props.sorting
  * @return {ChangeSort}
  */
-export const ChangeSort = () => {
-  const {} = [Sorting]
+export const ChangeSort = (props) => {
+  const {sorting} = props;
  return {
   sorting,
   type: 'CHANGE_SORT'

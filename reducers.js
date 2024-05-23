@@ -1,5 +1,5 @@
-import { State } from './store'
-import { Action } from './actions'
+import { State } from './store.js'
+import { Action } from './actions.js'
 
 /**
  * @param {State} state
@@ -7,6 +7,35 @@ import { Action } from './actions'
  * @return {State}
  */
 
-const reducer = (state, action) => {
-  return state;
-}
+export const reducer = (state, action) => {
+ switch (action.type) {
+   case "ADD_TASK": {
+      return {
+        ... state,
+        tasks: {
+          [action.task.id]: action.task,
+          ...state.tasks,
+        }
+      };
+   }
+
+   case "CHANGE_SORT": {
+    return {
+      ... state,
+      filters: {
+        ... state.filters,
+        sorting: action.sorting
+      }
+    };
+   }
+
+   case "TOGGLE_ADD": {
+    return {
+      ... state,
+      phase: state.phase === "adding" ? "idle" : "adding",
+    };
+   }
+   default: 
+     return state;
+  }
+};
